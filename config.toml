@@ -1,0 +1,295 @@
+theme = "vitesse-black"
+
+[editor]
+bufferline = "multiple"
+cursorline = true
+line-number = "relative"
+rulers = [90, 100, 120]
+true-color = true
+shell = ["zsh", "-c"]
+undercurl = true
+color-modes = true
+end-of-line-diagnostics = "warning"
+mouse = true
+middle-click-paste = true
+scroll-lines = 3
+scrolloff = 5
+auto-completion = true
+auto-format = true
+auto-save = false
+idle-timeout = 250
+completion-timeout = 250
+completion-replace = true
+preview-completion-insert = true
+text-width = 80
+popup-border = "all"
+indent-heuristic = "hybrid"
+default-yank-register = "+"
+
+[editor.inline-diagnostics]
+cursor-line = "error"
+other-lines = "disable"
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name", "file-modification-indicator"]
+center = []
+right = [
+    "diagnostics",
+    "register",
+    "selections",
+    "position",
+    "total-line-numbers",
+    "file-encoding",
+    "file-type",
+]
+
+[editor.lsp]
+display-inlay-hints = true
+auto-signature-help = true
+display-messages = true
+snippets = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+# VSCode shows ignored files dimmed rather than hiding them entirely; letting
+# Helix match gitignore keeps the picker relevant in big repos.
+git-ignore = true
+parents = true
+
+# VSCode-style search: case-insensitive until you type an uppercase character,
+# and wrapping at the end of the file.
+[editor.search]
+smart-case = true
+wrap-around = true
+
+[editor.smart-tab]
+# In insert mode, Tab moves to the end of the syntax node when there is text
+# to the left, instead of inserting a literal tab (VSCode-ish indentation).
+enable = true
+
+[editor.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+"\"" = "\""
+"`" = "`"
+"'" = "'"
+
+[editor.whitespace.render]
+space = "none"
+tab = "all"
+nbsp = "all"
+nnbsp = "all"
+newline = "none"
+
+[editor.indent-guides]
+render = true
+character = "│"
+skip-levels = 1
+
+[editor.gutters]
+layout = ["diagnostics", "spacer", "line-numbers", "spacer", "diff"]
+
+[editor.soft-wrap]
+# Wrap long lines at the window edge instead of scrolling them off-screen.
+enable = true
+# Wrap at the viewport width, not at `text-width` (80). Setting this to true
+# wraps at column 80 even in a wide window.
+wrap-at-text-width = false
+# Max free space kept at the end of a line so wrapping happens at word
+# boundaries instead of mid-word (hard-capped to 1/4 of the viewport).
+max-wrap = 20
+# Indentation carried onto wrapped continuation lines (capped to 2/5 viewport).
+max-indent-retain = 40
+# Marker drawn at the start of a wrapped continuation line ("" hides it).
+wrap-indicator = "↪ "
+
+# ---------------------------------------------------------------------------
+# VSCode-style keybindings
+# ---------------------------------------------------------------------------
+# Helix 25.07 accepts a Cmd modifier ("Cmd-c", "Meta-c", "Win-c"). A Cmd key
+# only reaches Helix if the terminal forwards it; Rex forwards keys that are
+# not bound in ~/.config/rex/init.lua. Both Cmd- and Ctrl- variants are bound
+# below so either works.
+#
+# Helix is selection-first, so there is no true "copy" with no selection; the
+# sequences below select the line first to mimic VSCode's behaviour.
+
+[keys.normal]
+# --- clipboard ------------------------------------------------------------
+# Helix has no "copy/paste selection" commands; select first, then Cmd-C/V.
+# VSCode's Cmd-C with no selection copies the whole line -> `x` then copy.
+"C-c" = ["extend_line_below", "yank_to_clipboard"]
+"C-v" = "paste_clipboard_after"
+"C-x" = ["extend_line_below", "delete_selection"]
+"C-a" = "select_all"
+"C-z" = "undo"
+"C-y" = "redo"
+"C-S-z" = "redo"
+# Undo is VSCode-style already: Helix commits pending insert-mode changes
+# before undoing, so one undo reverts a whole insert session, not one char.
+
+# Cmd (⌘) variants. Rex forwards these as Kitty `CSI 99;9u` (super), which
+# Helix decodes as SUPER. They work alongside the Ctrl bindings above.
+# NOTE: a macro like "@x<Cmd-c>" would re-trigger itself and fail (Helix
+# blocks recursive macros), so use a command sequence instead.
+"Cmd-c" = ["extend_line_below", "yank_to_clipboard"]
+"Cmd-v" = "paste_clipboard_after"
+"Cmd-x" = ["extend_line_below", "delete_selection"]
+"Cmd-a" = "select_all"
+"Cmd-z" = "undo"
+"Cmd-Z" = "redo"
+
+# --- files ----------------------------------------------------------------
+"C-s" = ":write"
+"C-S-s" = ":write-all"
+"C-q" = ":quit!"
+"C-p" = "file_picker"
+"C-S-p" = "command_palette"
+"C-S-f" = "global_search"
+"C-," = "buffer_picker"
+"C-S-e" = "changed_file_picker"
+"C-n" = "goto_next_buffer"
+"C-S-n" = ":buffer-next"
+
+# VSCode "find in file" replacement. Ctrl-F stays as Helix's page-down, which
+# matches VSCode's Ctrl-F habit being re-purposed; search is `/` (and `n`/`N`).
+# Ctrl-O / Ctrl-I walk the jumplist, like VSCode's Go Back / Go Forward.
+"C-o" = "jump_backward"
+"C-i" = "jump_forward"
+"A-left" = "jump_backward"
+"A-right" = "jump_forward"
+
+# Delete the current selection with Backspace.
+# Helix's yank does NOT clear the selection, so after `y` (or Cmd-C) the
+# yanked block stays selected; this makes Backspace delete exactly that block.
+# With nothing selected it falls through to deleting one character, so it is
+# still safe to mash.
+"backspace" = "delete_selection"
+
+"Cmd-s" = ":write"
+"Cmd-S-s" = ":write-all"
+"Cmd-q" = ":quit!"
+"Cmd-p" = "file_picker"
+"Cmd-S-p" = "command_palette"
+"Cmd-S-f" = "global_search"
+"Cmd-," = "buffer_picker"
+# --- plain word motions on arrow keys (no Ctrl needed) -------------------
+"home" = "goto_line_start"
+"end" = "goto_line_end"
+
+# --- LSP / IDE ------------------------------------------------------------
+"F2" = "rename_symbol"
+"F12" = "goto_definition"
+"S-F12" = "goto_reference"
+"A-F12" = "goto_implementation"
+"F8" = "goto_next_diag"
+"S-F8" = "goto_prev_diag"
+"C-S-m" = "diagnostics_picker"
+"A-S-m" = "workspace_diagnostics_picker"
+"C-S-i" = ":format"
+"A-S-f" = ":format"
+"C-." = "code_action"
+"C-k" = "hover"
+"A-o" = "symbol_picker"
+"C-S-o" = "workspace_symbol_picker"
+"C-S-b" = "file_explorer"
+"C-b" = "buffer_picker"
+
+# Debugging (VSCode F5 / F9 / F10 / F11). Needs a DAP config in languages.toml.
+"F5" = "dap_continue"
+"S-F5" = "dap_restart"
+"F9" = "dap_toggle_breakpoint"
+"F10" = "dap_next"
+"F11" = "dap_step_in"
+"C-F11" = "dap_step_out"
+
+# --- navigation (VSCode word-wise) ---------------------------------------
+# Word traversal: Ctrl/⌘ + Left/Right jumps whole words, VSCode-style.
+# Helix's move_prev_word_start goes to the START OF THE PREVIOUS word (not the
+# current word), which matches VSCode; move_next_word_start mirrors Ctrl-Right.
+"C-right" = "move_next_word_start"
+"C-left" = "move_prev_word_start"
+"Cmd-right" = "move_next_word_start"
+"Cmd-left" = "move_prev_word_start"
+
+# Shift variants extend the selection by whole words.
+"S-right" = ["select_mode", "extend_next_word_end"]
+"S-left" = ["select_mode", "extend_prev_word_start"]
+"Cmd-S-right" = ["select_mode", "extend_next_word_end"]
+"Cmd-S-left" = ["select_mode", "extend_prev_word_start"]
+
+"C-g" = "goto_line"
+"C-home" = "goto_file_start"
+"C-end" = "goto_last_line"
+"C-tab" = "goto_next_buffer"
+"C-S-tab" = "goto_previous_buffer"
+
+# --- window / pane management --------------------------------------------
+"C-S-v" = "vsplit"
+"C-S-h" = "hsplit"
+"C-w" = { w = "rotate_view", v = "vsplit", s = "hsplit", q = "wclose", o = "wonly", h = "jump_view_left", j = "jump_view_down", k = "jump_view_up", l = "jump_view_right", c = ":write-quit" }
+
+# --- editing (VSCode muscle memory) --------------------------------------
+"C-d" = "copy_selection_on_next_line"
+"C-S-k" = "delete_selection_noyank"
+"C-S-l" = "yank_to_clipboard"
+
+# Line operations VSCode exposes in its command palette.
+"A-S-i" = "extend_to_line_bounds"
+"A-S-o" = "shrink_to_line_bounds"
+
+
+
+[keys.normal.space]
+"e" = "diagnostics_picker"
+"i" = "symbol_picker"
+"I" = "workspace_symbol_picker"
+
+[keys.insert]
+"F2" = "rename_symbol"
+"F12" = "goto_definition"
+"S-F12" = "goto_reference"
+"C-." = "code_action"
+"C-space" = "completion"
+"C-backspace" = "delete_word_backward"
+"A-del" = "delete_word_forward"
+"C-right" = "move_next_word_start"
+"C-left" = "move_prev_word_start"
+"Cmd-right" = "move_next_word_start"
+"Cmd-left" = "move_prev_word_start"
+
+# VSCode habits that must survive insert mode.
+# Ctrl-C must CANCEL, not copy: in insert mode a stray copy of the whole line
+# silently eats text. Helix's normal_mode is the equivalent of VSCode's Esc.
+"C-c" = "normal_mode"
+# Ctrl-A / Ctrl-E: start / end of line (VSCode on macOS uses Cmd-Left/Right,
+# which most terminals do not forward, so these are the portable equivalent).
+"C-a" = "goto_line_start"
+"C-e" = "goto_line_end"
+# Ctrl-D deletes the next char; leave Ctrl-H/Backspace alone.
+"C-s" = "commit_undo_checkpoint"
+
+# Arrow keys stay enabled. VSCode users reach for them constantly; disabling
+# them (a common Helix config) is the single biggest source of friction.
+"home" = "goto_line_start"
+"end" = "goto_line_end_newline"
+
+[keys.select]
+# Select mode is where a mouse drag leaves you, and where Shift-arrow lands.
+"C-c" = "yank_to_clipboard"
+"C-v" = "replace_selections_with_clipboard"
+"C-right" = "extend_next_word_end"
+"C-left" = "extend_prev_word_start"
+
+# Cmd (⌘) equivalents; Rex forwards Cmd as Kitty super-codes.
+"Cmd-c" = "yank_to_clipboard"
+"Cmd-v" = "replace_selections_with_clipboard"
+"Cmd-x" = "delete_selection"
+"Cmd-right" = "extend_next_word_end"
+"Cmd-left" = "extend_prev_word_start"
