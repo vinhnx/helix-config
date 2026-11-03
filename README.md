@@ -8,12 +8,12 @@ from **VS Code** keeps working. Written and tested against **Helix 25.07.1**.
 | Where | What |
 | --- | --- |
 | 📦 **[vinhnx/helix-config](https://github.com/vinhnx/helix-config)** | this repo — the Helix config |
-| 🎨 **[vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix)** | the Vitesse Black theme this config uses |
+| 🎨 **[vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix)** | the Vitesse theme this config uses |
 | 📄 **[Gist](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae)** | single-file snapshot, now pointing here |
 
 If you want the color scheme too, install it from
 [vitesse-helix](https://github.com/vinhnx/vitesse-helix) — a port of Anthony Fu's
-Vitesse Black.
+Vitesse.
 
 ## Contents
 
@@ -201,6 +201,6 @@ MIT — see [LICENSE](LICENSE).
 
 ## See also
 
-- 🎨 [vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix) — the Vitesse Black theme
+- 🎨 [vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix) — the Vitesse theme
 - 📄 [Gist snapshot](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae) — both files in one place, no longer maintained
 - [Helix documentation](https://docs.helix-editor.com/) · [Helix keymap reference](https://docs.helix-editor.com/keymap.html)
