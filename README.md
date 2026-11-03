@@ -7,12 +7,12 @@ from **VS Code** keeps working. Written and tested against **Helix 25.07.1**.
 
 | Where | What |
 | --- | --- |
-| 📦 **[vinhnx/helix-config](https://github.com/vinhnx/helix-config)** | this repo — the Helix config |
-| 🎨 **[vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix)** | the Vitesse theme this config uses |
-| 📄 **[Gist](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae)** | single-file snapshot, now pointing here |
+| **[vinhnx/helix-config](https://github.com/vinhnx/helix-config)** | this repo: the Helix config |
+| **[vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix)** | the Vitesse theme this config uses |
+| **[Gist](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae)** | single-file snapshot, now pointing here |
 
 If you want the color scheme too, install it from
-[vitesse-helix](https://github.com/vinhnx/vitesse-helix) — a port of Anthony Fu's
+[vitesse-helix](https://github.com/vinhnx/vitesse-helix), a port of Anthony Fu's
 Vitesse.
 
 ## Contents
@@ -20,7 +20,7 @@ Vitesse.
 | File | Destination |
 | --- | --- |
 | `config.toml` | `~/.config/helix/config.toml` |
-| `rex-init.lua` | `~/.config/rex/init.lua` — **only if you use the [Rex](https://superlogical.com) terminal** |
+| `rex-init.lua` | `~/.config/rex/init.lua` (**only if you use the [Rex](https://superlogical.com) terminal**) |
 
 ## Install
 
@@ -30,7 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/vinhnx/helix-config/main/config.tom
   -o ~/.config/helix/config.toml
 ```
 
-Then, inside Helix: `:config-reload` — or just restart it.
+Then, inside Helix: `:config-reload`, or just restart it.
 
 The config expects a theme named `vitesse-black`. Install it from
 [vitesse-helix](https://github.com/vinhnx/vitesse-helix), or drop the
@@ -66,7 +66,7 @@ The config expects a theme named `vitesse-black`. Install it from
 
 | Key | Action |
 | --- | --- |
-| `Ctrl/⌘ C` | copy selection — or the whole line when nothing is selected |
+| `Ctrl/⌘ C` | copy selection, or the whole line when nothing is selected |
 | `Ctrl/⌘ X` | cut (same line fallback) |
 | `Ctrl/⌘ V` | paste |
 | `Ctrl/⌘ A` | select all |
@@ -91,7 +91,7 @@ The config expects a theme named `vitesse-black`. Install it from
 | `Ctrl O` / `Ctrl I` | jump backward / forward (VS Code "Go Back/Forward") |
 | `Alt ←` / `Alt →` | jump backward / forward (same, macOS-friendly) |
 | `Ctrl Shift V` / `Ctrl Shift H` | vertical / horizontal split |
-| `Ctrl W` | window submenu — `v` split, `s` split, `q` close, `o` only, `hjkl` focus, `c` write-quit |
+| `Ctrl W` | window submenu: `v` split, `s` split, `q` close, `o` only, `hjkl` focus, `c` write-quit |
 
 ### LSP & IDE
 
@@ -130,7 +130,7 @@ Needs a debug adapter configured in `languages.toml`.
 - **Relative line numbers**, cursorline, indent guides, a `diff` gutter.
 - **Diagnostics**: end-of-line for warnings, inline for errors on the cursor line.
 - **Completion**: auto-trigger, `completion-replace = true`, signatures on.
-- `default-yank-register = "+"` — yanks go to the system clipboard.
+- `default-yank-register = "+"`: yanks go to the system clipboard.
 - `screen shell = ["zsh", "-c"]` (see below for Windows).
 
 ## Pitfalls this config fixes
@@ -144,7 +144,7 @@ knowing, and each is handled above:
 deletes the whole line. Here it is bound to `normal_mode`, which is what
 VS Code users actually expect.
 
-**Backspace after yanking.** Helix's `yank` does not clear the selection — it
+**Backspace after yanking.** Helix's `yank` does not clear the selection; it
 only leaves *select mode*. So the yanked block stays selected and `Backspace`
 can delete exactly that block. With nothing selected it deletes a single
 character, so it stays safe to hold down.
@@ -159,7 +159,7 @@ itself; Helix detects this and errors out. Use a command **sequence** instead:
 **`Ctrl-F` is not search.** It stays bound to page-down because rebinding it
 breaks a core motion. Search is `/`, then `n` / `N`.
 
-**No line swap.** `Alt-Up/Down` (VS Code) has no Helix equivalent — there is no
+**No line swap.** `Alt-Up/Down` (VS Code) has no Helix equivalent: there is no
 `swap_selection_up` command in 25.07. Cut and paste the line instead.
 
 **No copy without a selection.** Helix is selection-first; the bindings above
@@ -169,7 +169,7 @@ select the line first to imitate VS Code.
 
 `Cmd` reaches Helix only if the terminal forwards it as a super modifier. In the
 [Rex](https://superlogical.com) terminal, unbinding its native copy/paste is
-enough — that is what [`rex-init.lua`](rex-init.lua) does:
+enough; that is what [`rex-init.lua`](rex-init.lua) does:
 
 ```lua
 rex.unbind("cmd+c")
@@ -180,7 +180,7 @@ rex.unbind("cmd+x")
 Rex then sends `⌘ C` as a Kitty `CSI 99;9u` super-sequence, which Helix decodes
 as `SUPER`. Reload with `rex config reload`.
 
-For other terminals, skip this file — the `Ctrl` bindings are unaffected, and
+For other terminals, skip this file: the `Ctrl` bindings are unaffected, and
 some terminals (e.g. iTerm2 with "Report modifiers using CSI u") can be
 configured to forward modifiers.
 
@@ -197,10 +197,10 @@ The `Cmd` bindings are inert elsewhere and can be ignored.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
 
 ## See also
 
-- 🎨 [vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix) — the Vitesse theme
-- 📄 [Gist snapshot](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae) — both files in one place, no longer maintained
+- [vinhnx/vitesse-helix](https://github.com/vinhnx/vitesse-helix): the Vitesse theme
+- [Gist snapshot](https://gist.github.com/vinhnx/8bb4ef22e5ccfee5f839dbf1a31939ae): both files in one place, no longer maintained
 - [Helix documentation](https://docs.helix-editor.com/) · [Helix keymap reference](https://docs.helix-editor.com/keymap.html)
